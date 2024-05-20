@@ -11,7 +11,7 @@ export const AuthHeader: React.FC<Props> = ({ showLogins }) => {
 
     const navigate = useNavigate();
     return (
-        <div className='flex items-center justify-between  px-28 shadow-sm sticky  top-0 z-50 py-1'>
+        <div className='flex items-center justify-between  px-28 shadow-sm sticky  top-0 z-50 py-1 bg-white'>
             <img onClick={() => {
                 navigate("/");
             }} className=' cursor-pointer' src={logo} style={{ width: "100%", maxHeight: 70, maxWidth: 100 }} />

@@ -3,4 +3,4 @@ const FILEPATH: string = "http://localhost:5000/";
 
 
 
-export {BASEURL, FILEPATH};
+export { BASEURL, FILEPATH };

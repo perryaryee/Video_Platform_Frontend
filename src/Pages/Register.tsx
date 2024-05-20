@@ -8,42 +8,43 @@ import { Button, Checkbox, CircularProgress, TextField } from '@mui/material';
 // import { Add_Wk } from '../Redux/Slices/WorkSpaceData';
 import { useNavigate } from 'react-router-dom';
 import { message } from 'antd';
+import axios from 'axios';
+import { BASEURL } from '../Connections/BASEURLS';
 // import { Add_User } from '../Redux/Slices/UserSlice';
 
 const Register: React.FC = () => {
   // const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [signUpLoading, setsignUpLoading] = useState(false);
+  const [signUpLoading, setsignUpLoading] = useState<boolean>(false);
   const [email, setemail] = useState<string>("");
   const [password, setpassword] = useState<string>("");
 
   const Register_Account = () => {
-    // if (!user_name && !email && !password) {
-    //     message.warning("All fields are required !!")
-    // } else {
-    //     setsignUpLoading(true);
-    //     const payload = {
-    //         user_name,
-    //         email,
-    //         password
-    //     }
+    if (!email && !password) {
+      message.warning("All fields are required !!")
+    } else {
+      setsignUpLoading(true);
+      const payload = {
+        email,
+        password
+      }
 
-    //     axios.post(`${BASEURL}/users/create-account`, payload).then((response) => {
-    //         setsignUpLoading(false);
-    //         const data = response.data.user;
-    //         if (data) {
-    //             dispatch(Add_User({
-    //                 userid: data.tblid,
-    //                 email: data.email,
-    //                 user_name: data.user_name
-    //             }))
-    //             navigate("/create-work-space");
-    //         }
-    //     }).catch((err) => {
-    //         setsignUpLoading(false);
-    //         message.error(err.response.data.message);
-    //     });
-    // }
+      axios.post(`${BASEURL}/auth/signup`, payload).then((response) => {
+        setsignUpLoading(false);
+        const data = response.data.user;
+        if (data) {
+          // dispatch(Add_User({
+          //     userid: data.tblid,
+          //     email: data.email,
+          //     user_name: data.user_name
+          // }))
+          navigate("/email-verification");
+        }
+      }).catch((err) => {
+        setsignUpLoading(false);
+        message.error(err.response.data.message);
+      });
+    }
 
   }
 
@@ -68,9 +69,11 @@ const Register: React.FC = () => {
                   <TextField type="password" value={password} onChange={(e) => {
                     setpassword(e.target.value);
                   }} fullWidth label="Password" />
-                  <div className=' flex items-center space-x-3'>
-                    <Checkbox />
-                    <h1>By continuing I agree to the Terms of Service and Privacy Policy.</h1>
+                  <div className=' flex justify-end'>
+                    {/* <Checkbox /> */}
+                    <h1 onClick={() => {
+                      navigate("/reset-password");
+                    }}>forgot password?</h1>
                   </div>
                   <div className=' grid place-items-center'>
                     {signUpLoading ? <Button onClick={Register_Account} style={{ backgroundColor: "#703578", color: "white", textTransform: "initial", paddingTop: 13, fontSize: 14, fontWeight: "bold", paddingBottom: 13, paddingLeft: 100, paddingRight: 100, borderRadius: 30 }}> <CircularProgress size={17} style={{ color: "white" }} /></Button> :
