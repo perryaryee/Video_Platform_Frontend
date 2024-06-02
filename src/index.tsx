@@ -3,13 +3,41 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/es/integration/react";
+import { persistStore } from "redux-persist";
+import { ThemeProvider, createTheme } from "@mui/material";
+import Store from "./Redux/Store/Store";
+
+
+const theme = createTheme({
+  typography: {
+    fontFamily: ["Poppins", "sans-serif"].join(","),
+    fontWeightBold: "bold"
+  },
+  palette: {
+    primary: {
+      main: "#703578",
+      // main:"#0F1047"
+    },
+
+  },
+});
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+const persistor = persistStore(Store);
 root.render(
   <React.StrictMode>
-    <App />
+    <Provider store={Store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <ThemeProvider theme={theme}>
+          <App />
+        </ThemeProvider>
+      </PersistGate>
+    </Provider>
+
   </React.StrictMode>
 );
 

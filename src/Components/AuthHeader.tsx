@@ -13,7 +13,7 @@ export const AuthHeader: React.FC<Props> = ({ showLogins }) => {
     return (
         <div className='flex items-center justify-between  px-28 shadow-sm sticky  top-0 z-50 py-1 bg-white'>
             <img onClick={() => {
-                navigate("/");
+                navigate("/login");
             }} className=' cursor-pointer' src={logo} style={{ width: "100%", maxHeight: 70, maxWidth: 100 }} />
             <div>
                 {showLogins ?

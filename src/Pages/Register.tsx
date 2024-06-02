@@ -69,12 +69,7 @@ const Register: React.FC = () => {
                   <TextField type="password" value={password} onChange={(e) => {
                     setpassword(e.target.value);
                   }} fullWidth label="Password" />
-                  <div className=' flex justify-end'>
-                    {/* <Checkbox /> */}
-                    <h1 onClick={() => {
-                      navigate("/reset-password");
-                    }}>forgot password?</h1>
-                  </div>
+                 
                   <div className=' grid place-items-center'>
                     {signUpLoading ? <Button onClick={Register_Account} style={{ backgroundColor: "#703578", color: "white", textTransform: "initial", paddingTop: 13, fontSize: 14, fontWeight: "bold", paddingBottom: 13, paddingLeft: 100, paddingRight: 100, borderRadius: 30 }}> <CircularProgress size={17} style={{ color: "white" }} /></Button> :
                       <Button onClick={Register_Account} style={{ backgroundColor: "#703578", color: "white", textTransform: "initial", paddingTop: 13, fontSize: 14, fontWeight: "bold", paddingBottom: 13, paddingLeft: 100, paddingRight: 100, borderRadius: 30 }}>Create Account</Button>

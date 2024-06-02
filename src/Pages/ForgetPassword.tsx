@@ -8,27 +8,33 @@ import { message } from "antd";
 
 const ForgetPassword: React.FC = () => {
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const [email, setemail] = useState<string>("");
 
 
   const submitEmail = () => {
-    setLoading(true);
-    const payload = {
-      email
-    };
-    axios
-      .post(`${BASEURL}/auth/reset-password`, payload)
-      .then((response) => {
-        const data = response.data.message;
-        message.success(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setLoading(false);
-        message.error(err.response.data.message);
-      });
+    if (!email) {
+      message.warning("Field is required!!!!")
+    }
+    else {
+      setLoading(true);
+      const payload = {
+        email
+      };
+      axios
+        .post(`${BASEURL}/auth/reset-password`, payload)
+        .then((response) => {
+          const data = response.data.message;
+          message.success(data);
+          setLoading(false);
+        })
+        .catch((err) => {
+          setLoading(false);
+          message.error(err.response.data.message);
+        });
+    }
+
   };
 
   return (
@@ -38,9 +44,6 @@ const ForgetPassword: React.FC = () => {
         <div className="grid place-items-center h-[80%]">
           <div className="bg-[white] rounded-xl w-full lg:shadow-md lg:w-[40%] p-3 lg:p-10">
             <div className="space-y-5">
-              <h1 className="text-center font-bold text-xl lg:text-2xl">
-                Password Reset
-              </h1>
               <p className="text-center py-3 text-lg">
                 Enter your email to reset your password
               </p>
