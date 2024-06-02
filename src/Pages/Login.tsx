@@ -12,11 +12,11 @@ import { Add_User } from '../Redux/Slices/UserSlice';
 
 const Login = () => {
     const navigate = useNavigate();
-    const [loading, setloading] = useState(false);
+    const [loading, setloading] = useState<boolean>(false);
     const dispatch = useDispatch();
 
-    const [email, setemail] = useState("");
-    const [password, setpassword] = useState("");
+    const [email, setemail] = useState<string>("");
+    const [password, setpassword] = useState<string>("");
 
 
 
@@ -40,7 +40,7 @@ const Login = () => {
                         email: data.user.email,
                         token: data.token
                     }))
-                    // navigate("/create-work-space");
+                    navigate("/home");
                 }
             }).catch((err) => {
                 setloading(false);

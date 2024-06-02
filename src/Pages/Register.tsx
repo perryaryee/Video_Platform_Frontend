@@ -10,10 +10,12 @@ import { useNavigate } from 'react-router-dom';
 import { message } from 'antd';
 import axios from 'axios';
 import { BASEURL } from '../Connections/BASEURLS';
+import { Add_User } from '../Redux/Slices/UserSlice';
+import { useDispatch } from 'react-redux';
 // import { Add_User } from '../Redux/Slices/UserSlice';
 
 const Register: React.FC = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [signUpLoading, setsignUpLoading] = useState<boolean>(false);
   const [email, setemail] = useState<string>("");
@@ -33,11 +35,10 @@ const Register: React.FC = () => {
         setsignUpLoading(false);
         const data = response.data.user;
         if (data) {
-          // dispatch(Add_User({
-          //     userid: data.tblid,
-          //     email: data.email,
-          //     user_name: data.user_name
-          // }))
+          dispatch(Add_User({
+            email: data.user.email,
+            token: data.token
+        }))
           navigate("/email-verification");
         }
       }).catch((err) => {

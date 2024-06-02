@@ -39,7 +39,7 @@ const EmailVerification: React.FC = () => {
     const submitCode = () => {
         setLoading(true);
         const payload = {
-            email: user?.email,
+            email: "perryaryeesci@gmail.com",
             verification_code: codeValuesJoined,
         };
         axios
