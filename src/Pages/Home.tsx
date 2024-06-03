@@ -15,16 +15,40 @@ interface video {
 
 }
 
+interface Pagination {
+    next?: {
+        page: number;
+        limit: number;
+    };
+    prev?: {
+        page: number;
+        limit: number;
+    };
+}
+
+
+interface ApiResponse {
+    total: number;
+    videos: video[];
+    pagination: Pagination;
+}
+
 const Home: React.FC = () => {
     const user = useSelector(selectUser);
-    const [all_video, setall_video] = useState([]);
+    const [all_video, setall_video] = useState<video[]>([]);
+    const [page, setPage] = useState<number>(1);
+    const [limit] = useState<number>(10);
+    const [pagination, setPagination] = useState<Pagination>({});
+
+
     useEffect(() => {
-        axios.get(`${BASEURL}/video/all_video`, {
+        axios.get(`${BASEURL}/video/all_video?page=${page}&limit=${limit}`, {
             headers: {
                 'Authorization': `Bearer ${user?.token}`
             }
         }).then((response) => {
             const data = response.data.videos;
+            setPagination(data.pagination);
             setall_video(data);
         }).catch((err) => {
             console.log(err);
@@ -37,7 +61,7 @@ const Home: React.FC = () => {
             <AuthHeader />
             <div>
                 {
-                    all_video.map((list: video) => {
+                    all_video.map((list) => {
                         return (
                             <div className=' grid place-items-center h-[75vh]'>
                                 <div className=' h-[400px] w-[700px]  bg-white'>
@@ -69,8 +93,12 @@ const Home: React.FC = () => {
                                     <div className=' grid place-items-center'>
                                         <div>
                                             <div className=' flex items-center space-x-4 mt-3'>
-                                                <button className='  border border-[#703578] bg-white px-4 py-2 rouded-[5px] rounded-[5px] text-[#703578]'>Previous</button>
-                                                <button className=' bg-[#703578] px-8 text-white py-2 rounded-[5px]'>Next</button>
+                                                {pagination.prev && (
+                                                    <button  onClick={() => setPage(pagination.prev!.page)} className='  border border-[#703578] bg-white px-4 py-2 rouded-[5px] rounded-[5px] text-[#703578]'>Previous</button>
+                                                )}
+                                                {pagination.next && (
+                                                    <button onClick={() => setPage(pagination.next!.page)} className=' bg-[#703578] px-8 text-white py-2 rounded-[5px]'>Next</button>
+                                                )}
                                             </div>
                                         </div>
                                     </div>

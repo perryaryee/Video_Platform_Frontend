@@ -7,11 +7,13 @@ import Register from './Pages/Register';
 import ForgetPassword from './Pages/ForgetPassword';
 import EmailVerifcation from './Pages/EmailVerifcation';
 import NewPassword from './Pages/NewPassword';
+import Admin from "./Pages/Admin";
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path='/admin' element={<Admin />} />
         <Route path="/home" element={<Home />} />
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />

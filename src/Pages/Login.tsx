@@ -64,7 +64,7 @@ const Login = () => {
                         <div className=' space-y-3'>
                             <h1 className=' font-bold xl text-center'>First, enter your email</h1>
                         </div>
-                        <div className=' mt-12'>
+                        <div className=' mt-4'>
                             <div className=' space-y-8'>
                                 <TextField value={email} onChange={(e) => {
                                     setemail(e.target.value);

@@ -17,12 +17,15 @@ export const AuthHeader: React.FC<Props> = ({ showLogins }) => {
             }} className=' cursor-pointer' src={logo} style={{ width: "100%", maxHeight: 70, maxWidth: 100 }} />
             <div>
                 {showLogins ?
-                    <Button onClick={() => {
-                        navigate("/register")
-                    }} style={{ backgroundColor: "#703578", color: "white", paddingLeft: 60, paddingRight: 60, borderRadius: 30, paddingTop: 13, paddingBottom: 13, fontWeight: "bold", fontSize: 13 }}>REGISTER</Button>
+                    <div className=' flex items-center space-x-3'>
+                       <Button style={{border:"1px solid #703578",paddingLeft: 50, paddingRight: 50, borderRadius: 6, paddingTop: 13, paddingBottom: 13, fontWeight: "bold", fontSize: 13 }}>ADMIN</Button>
+                        <Button onClick={() => {
+                            navigate("/register")
+                        }} style={{ backgroundColor: "#703578", color: "white", paddingLeft: 50, paddingRight: 50, borderRadius: 6, paddingTop: 13, paddingBottom: 13, fontWeight: "bold", fontSize: 13 }}>REGISTER</Button>
+                    </div>
                     : <Button onClick={() => {
                         navigate("/")
-                    }} style={{ backgroundColor: "#703578", color: "white", paddingLeft: 80, paddingRight: 80, borderRadius: 30, paddingTop: 13, paddingBottom: 13, fontWeight: "bold", fontSize: 13 }}>LOGIN</Button>}
+                    }} style={{ backgroundColor: "#703578", color: "white", paddingLeft: 80, paddingRight: 80, borderRadius: 6, paddingTop: 13, paddingBottom: 13, fontWeight: "bold", fontSize: 13 }}>LOGIN</Button>}
             </div>
         </div>
     )
