@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface Video {
+    _id: string,
     title: string;
     description: string;
 }

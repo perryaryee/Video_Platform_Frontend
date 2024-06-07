@@ -25,10 +25,12 @@ import logo from "../files/logo.png";
 import { Modal, message } from 'antd';
 import axios from 'axios';
 import { BASEURL } from '../Connections/BASEURLS';
+import { useDispatch, useSelector } from 'react-redux';
+import { Add_VideoDetails, selectVideoDetails } from '../Redux/Slices/VideoSlice';
 
 
 
-interface video {
+interface Video {
     title: string,
     description: string,
     videopath: string,
@@ -37,15 +39,18 @@ interface video {
 }
 
 const Admin: React.FC = () => {
+    const dispatch = useDispatch();
+    const videoDetails = useSelector(selectVideoDetails);
     const [showModal, setshowModal] = useState<boolean>(false);
     const [title, settitle] = useState<string>("");
     const [description, setdescription] = useState<string>("");
-    const [all_video, setall_video] = useState<video[]>([]);
+    const [all_video, setall_video] = useState<Video[]>([]);
     const [loader, setloader] = useState<boolean>(false);
     const [videopath, setvideopath] = useState([]);
     const [TriggerRefresh, setTriggerRefresh] = useState<number>(0);
     const [submit_loading, setsubmit_loading] = useState<boolean>(false);
     const [EditModal, setEditModal] = useState<boolean>(false);
+    const [CurrentVideoId, setCurrentVideoId] = useState<string>("");
 
     useEffect(() => {
         setloader(true);
@@ -90,7 +95,22 @@ const Admin: React.FC = () => {
         }
     };
 
+    const openEditModal = (video: Video) => {
+        setCurrentVideoId(video._id);
+        settitle(video.title);
+        setdescription(video.description);
+        setEditModal(true);
+    };
+
     const handleEditSubmit = async () => {
+        const payload = {
+
+        }
+        try {
+            axios.put(`${BASEURL}/video/edit_video`)
+        } catch (error) {
+
+        }
 
     }
 
@@ -196,7 +216,7 @@ const Admin: React.FC = () => {
                                     </TableHead>
                                     <TableBody>
                                         {
-                                            all_video.map((list: video) => {
+                                            all_video.map((video: Video) => {
                                                 return (
                                                     <TableRow>
                                                         <TableCell
@@ -205,20 +225,18 @@ const Admin: React.FC = () => {
                                                                 paddingLeft: 21,
                                                             }}
                                                         >
-                                                            {list.title}
+                                                            {video.title}
                                                         </TableCell>
                                                         <TableCell
                                                             style={{ fontFamily: "'Poppins', sans-serif" }}
                                                         >
-                                                            {list.description}
+                                                            {video.description}
                                                         </TableCell>
                                                         <TableCell
                                                             style={{ fontFamily: "'Poppins', sans-serif" }}
                                                         >
                                                             <div>
-                                                                <IconButton onClick={() => {
-                                                                    setEditModal(true);
-                                                                }}>
+                                                                <IconButton onClick={() => openEditModal(video)}>
                                                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6">
                                                                         <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L6.832 19.82a4.5 4.5 0 0 1-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 0 1 1.13-1.897L16.863 4.487Zm0 0L19.5 7.125" />
                                                                     </svg>
@@ -226,12 +244,12 @@ const Admin: React.FC = () => {
                                                                 </IconButton>
                                                                 <IconButton onClick={() => {
                                                                     Modal.warning({
-                                                                        title: "Are you sure you wan to delete this teacher?",
+                                                                        title: "Are you sure you wan to delete this video?",
                                                                         okText: "Yes",
                                                                         centered: true,
                                                                         closable: true,
                                                                         onOk: () => {
-                                                                            axios.delete(`${BASEURL}/video/${list._id}`).then((res) => {
+                                                                            axios.delete(`${BASEURL}/video/${video._id}`).then((res) => {
                                                                                 console.log(res.data, 'delete')
 
                                                                             }).catch((err) => {
