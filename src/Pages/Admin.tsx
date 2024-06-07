@@ -27,6 +27,8 @@ import axios from 'axios';
 import { BASEURL } from '../Connections/BASEURLS';
 import { useDispatch, useSelector } from 'react-redux';
 import { Add_VideoDetails, selectVideoDetails } from '../Redux/Slices/VideoSlice';
+import AdminHeader from '../Components/AdminHeader';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -40,6 +42,7 @@ interface Video {
 
 const Admin: React.FC = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const videoDetails = useSelector(selectVideoDetails);
     const [showModal, setshowModal] = useState<boolean>(false);
     const [title, settitle] = useState<string>("");
@@ -71,28 +74,39 @@ const Admin: React.FC = () => {
 
 
     const handleSubmit = async () => {
-        setsubmit_loading(true);
-        const formData = new FormData();
-        formData.append('title', title);
-        formData.append('description', description);
-        videopath.forEach((videopath) => {
-            formData.append('videopath', videopath);
-        })
-
-        try {
-            const response = await axios.post(`${BASEURL}/video/upload_video`, formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
-            setsubmit_loading(false);
-            setshowModal(false);
-            message.success("Video Added Successfully!!")
-            setTriggerRefresh(Math.random());
-        } catch (error) {
-            console.error('Error uploading video:', error);
-            setsubmit_loading(false);
+        if (!title || !description) {
+            message.warning("All Fields are required!!")
         }
+        else {
+            setsubmit_loading(true);
+            const formData = new FormData();
+            formData.append('title', title);
+            formData.append('description', description);
+            videopath.forEach((videopath) => {
+                formData.append('videopath', videopath);
+            })
+
+            try {
+                const response = await axios.post(`${BASEURL}/video/upload_video`, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                    },
+                });
+                setsubmit_loading(false);
+                setshowModal(false);
+                message.success(response.data.message);
+                settitle("");
+                setdescription("");
+                setvideopath([]);
+                setTriggerRefresh(Math.random());
+            } catch (error: any) {
+                console.error('Error uploading video:', error);
+                setsubmit_loading(false);
+                message.warning(error.response.data.message);
+
+            }
+        }
+
     };
 
     const openEditModal = (video: Video) => {
@@ -102,13 +116,24 @@ const Admin: React.FC = () => {
         setEditModal(true);
     };
 
-    const handleEditSubmit = async () => {
-        const payload = {
+    const [editloading, seteditloading] = useState(false);
 
+    const handleEditSubmit = async () => {
+        seteditloading(true);
+        const payload = {
+            title,
+            description
         }
         try {
-            axios.put(`${BASEURL}/video/edit_video`)
-        } catch (error) {
+            const response = await axios.put(`${BASEURL}/video/${CurrentVideoId}`, payload);
+            seteditloading(false);
+            message.success(response.data.message);
+            setTriggerRefresh(Math.random());
+            setEditModal(false);
+        } catch (error: any) {
+            seteditloading(false);
+            message.error(error.response.data.message);
+            console.log(error);
 
         }
 
@@ -120,19 +145,38 @@ const Admin: React.FC = () => {
             <Modal onCancel={() => {
                 setshowModal(false);
             }} open={showModal} footer={null} title={<h1>Add Video</h1>}>
-                <div className=' space-y-4 mt-5'>
+                <div className=' space-y-6 mt-5'>
                     <TextField label="Title" fullWidth value={title} onChange={(e) => {
                         settitle(e.target.value);
                     }} />
                     <TextField label="Description" fullWidth value={description} onChange={(e) => {
                         setdescription(e.target.value);
                     }} />
-                    <input type="file"
+                    {/* <input type="file"
                         id="video"
                         accept="video/*"
                         onChange={handleVideoChange}
                         multiple
-                        required />
+                        required /> */}
+                    <label className=' w-full rounded-md' htmlFor="video" style={{ border: "2px dashed #ccc", padding: "14px", display: "inline-block", cursor: "pointer" }}>
+                        <div className=' grid place-items-center'>
+                            <div>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" className="size-6 ">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9a2.25 2.25 0 0 0-2.25-2.25h-9A2.25 2.25 0 0 0 2.25 7.5v9a2.25 2.25 0 0 0 2.25 2.25Z" />
+                                </svg>
+                                Upload Video
+                            </div>
+                        </div>
+                        <input
+                            type="file"
+                            id="video"
+                            accept="video/*"
+                            onChange={handleVideoChange}
+                            multiple
+                            required
+                            style={{ display: "none" }} // Hide the actual input element
+                        />
+                    </label>
                     <div>
                         {submit_loading ? <Button variant="contained" style={{ width: "100%", backgroundColor: "#703578", color: "white" }}><CircularProgress size={17} style={{ color: "white" }} /></Button> :
                             <Button onClick={handleSubmit} variant="contained" style={{ width: "100%", backgroundColor: "#703578", color: "white" }}>Submit</Button>
@@ -142,15 +186,17 @@ const Admin: React.FC = () => {
             </Modal>
             <Modal open={EditModal} footer={null} title={<h1>Edit Video</h1>} onCancel={() => {
                 setEditModal(false);
+                setTriggerRefresh(Math.random());
             }}>
-                <div className=' space-y-4 mt-5'>
+                <div className=' space-y-6 mt-5'>
                     <TextField label="Title" fullWidth value={title} onChange={(e) => {
                         settitle(e.target.value);
                     }} />
                     <TextField label="Description" fullWidth value={description} onChange={(e) => {
                         setdescription(e.target.value);
                     }} />
-                    <Button onClick={handleEditSubmit} variant="contained" style={{ width: "100%", backgroundColor: "#703578", color: "white" }}>Submit</Button>
+                    {editloading ? <Button variant="contained" style={{ width: "100%", backgroundColor: "#703578", color: "white" }}><CircularProgress size={17} style={{ color: "white" }} /></Button> : <Button onClick={handleEditSubmit} variant="contained" style={{ width: "100%", backgroundColor: "#703578", color: "white" }}>Submit</Button>}
+
                 </div>
             </Modal>
             <div className='grid grid-cols-10'>
@@ -158,9 +204,20 @@ const Admin: React.FC = () => {
                     <AdminSidebar />
                 </div>
                 <div className=' col-span-8  bg-[#FAF7F6]'>
-                    <div className=' bg-white shadow-sm'>
-                        <img className=' cursor-pointer' src={logo} style={{ width: "100%", maxHeight: 70, maxWidth: 100 }} />
-                    </div>
+                    <AdminHeader onClick={() => {
+                         Modal.warning({
+                            title: "Are you sure you want to make logout?",
+                            okText: "Yes",
+                            centered: true,
+                            closable: true,
+                            onOk: () => {
+                                navigate("/");  
+                            },
+                            
+                        })
+                       
+                    }} />
+                    
                     <div className=' flex items-center justify-between px-5 mt-3'>
                         <div>
                             <h1 className=' text-2xl font-semibold'>All Videos</h1>
@@ -250,7 +307,7 @@ const Admin: React.FC = () => {
                                                                         closable: true,
                                                                         onOk: () => {
                                                                             axios.delete(`${BASEURL}/video/${video._id}`).then((res) => {
-                                                                                console.log(res.data, 'delete')
+                                                                                setTriggerRefresh(Math.random());
 
                                                                             }).catch((err) => {
                                                                                 console.log(err);

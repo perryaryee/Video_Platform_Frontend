@@ -1,11 +1,7 @@
 import React, { useState } from 'react'
 import { AuthHeader } from '../Components/AuthHeader';
-// import Team from "../files/team.jfif"
+// import Team from "../files/pic2.jfif";
 import { Button, Checkbox, CircularProgress, TextField } from '@mui/material';
-// import axios from 'axios';
-// import BASEURL from '../Connection/Connecction';
-// import { useDispatch } from 'react-redux';
-// import { Add_Wk } from '../Redux/Slices/WorkSpaceData';
 import { useNavigate } from 'react-router-dom';
 import { message } from 'antd';
 import axios from 'axios';
@@ -55,7 +51,7 @@ const Register: React.FC = () => {
       <AuthHeader />
       <div className=' grid grid-cols-10 bg-[#FAF7F6] h-screen'>
         <div className=' col-span-3  px-10  py-16 '>
-          {/* <img className=' rounded-3xl ml-10' src={Team} style={{ width: "100%", height: 600, width: 700 }} /> */}
+          {/* <img className=' rounded-3xl ml-10' src={Team} style={{ width: "100%", height: 600}} /> */}
         </div>
         <div className=' col-span-7 px-32'>
           <div className='pt-16'>

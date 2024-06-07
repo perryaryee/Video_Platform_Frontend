@@ -11,14 +11,14 @@ export const AuthHeader: React.FC<Props> = ({ showLogins }) => {
 
     const navigate = useNavigate();
     return (
-        <div className='flex items-center justify-between  px-28 shadow-sm sticky  top-0 z-50 py-1 bg-white'>
+        <div className='flex items-center justify-between px-6 shadow-sm sticky  top-0 z-50 py-1 bg-white'>
             <img onClick={() => {
                 navigate("/login");
             }} className=' cursor-pointer' src={logo} style={{ width: "100%", maxHeight: 70, maxWidth: 100 }} />
             <div>
                 {showLogins ?
                     <div className=' flex items-center space-x-3'>
-                       <Button style={{border:"1px solid #703578",paddingLeft: 50, paddingRight: 50, borderRadius: 6, paddingTop: 13, paddingBottom: 13, fontWeight: "bold", fontSize: 13 }}>ADMIN</Button>
+                        <Button style={{ border: "1px solid #703578", paddingLeft: 50, paddingRight: 50, borderRadius: 6, paddingTop: 13, paddingBottom: 13, fontWeight: "bold", fontSize: 13 }}>ADMIN</Button>
                         <Button onClick={() => {
                             navigate("/register")
                         }} style={{ backgroundColor: "#703578", color: "white", paddingLeft: 50, paddingRight: 50, borderRadius: 6, paddingTop: 13, paddingBottom: 13, fontWeight: "bold", fontSize: 13 }}>REGISTER</Button>
