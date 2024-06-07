@@ -94,7 +94,7 @@ const Home: React.FC = () => {
                                         <div>
                                             <div className=' flex items-center space-x-4 mt-3'>
                                                 {pagination.prev && (
-                                                    <button  onClick={() => setPage(pagination.prev!.page)} className='  border border-[#703578] bg-white px-4 py-2 rouded-[5px] rounded-[5px] text-[#703578]'>Previous</button>
+                                                    <button onClick={() => setPage(pagination.prev!.page)} className='  border border-[#703578] bg-white px-4 py-2 rouded-[5px] rounded-[5px] text-[#703578]'>Previous</button>
                                                 )}
                                                 {pagination.next && (
                                                     <button onClick={() => setPage(pagination.next!.page)} className=' bg-[#703578] px-8 text-white py-2 rounded-[5px]'>Next</button>

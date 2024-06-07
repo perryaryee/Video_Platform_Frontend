@@ -18,21 +18,24 @@ const AdminSidebar: React.FC = () => {
     return (
         <div className=' bg-[#703578] h-screen'>
             <List>
+                <div>
+                    <h1 className=' text-center text-[#F0AE2F] mb-5'>ADMIN PANEL</h1>
+                </div>
                 <ListItemButton
-                    selected={isActive("/dashboard")}
-                    onClick={() => handleClickRoute("/dashboard")}
+                    selected={isActive("/admin")}
+                    onClick={() => handleClickRoute("/admin")}
                     style={{
                         margin: 8,
                         paddingTop: 4,
                         paddingBottom: 4,
-                        borderRadius: 9,
-                        backgroundColor: isActive("/dashboard") ? "#EB0A8E" : "initial",
+                        borderRadius: 5,
+                        // backgroundColor: isActive("/admin") ? "#F0AE2F" : "initial",
                     }}
                 >
                     <ListItemIcon style={{ paddingLeft: "10px" }}>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
-                            color={isActive("/dashboard") ? "white" : "#8B91A1"}
+                            color={isActive("/admin") ? "white" : "white"}
                             // color="#8B91A1"
                             fill="none"
                             viewBox="0 0 24 24"
@@ -50,9 +53,9 @@ const AdminSidebar: React.FC = () => {
                     </ListItemIcon>
                     <ListItemText
                         className={
-                            loc.pathname === "/dashboard"
+                            loc.pathname === "/admin"
                                 ? " text-white font-bold"
-                                : "text-[14px] text-[#9299A6] font-bold"
+                                : "text-[14px] text-white font-bold"
                         }
                         // className=" text-[14px] text-[#9299A6]"
                         // style={{ fontWeight: "bold" }}
