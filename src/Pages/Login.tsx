@@ -62,7 +62,7 @@ const Login = () => {
                             <img src={logo} style={{ width: 120, height: 120 }} />
                         </div>
                         <div className=' space-y-3'>
-                            <h1 className=' font-bold xl text-center'>First, enter your email</h1>
+                            <h1 className=' font-bold 2xl text-center'>login</h1>
                         </div>
                         <div className=' mt-4'>
                             <div className=' space-y-8'>

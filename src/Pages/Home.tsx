@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Header from '../Components/Header';
 import { AuthHeader } from '../Components/AuthHeader';
 import axios from 'axios';
 import { BASEURL, FILEPATH } from '../Connections/BASEURLS';
@@ -73,7 +72,7 @@ const Home: React.FC = () => {
 
     return (
         <div className='bg-[#FAF7F6] h-screen'>
-            <AuthHeader />
+            <AuthHeader  showLogout />
             {Loader ? <div className=' grid place-items-center pt-16'>
                 <CircularProgress size={18} style={{ color: "#703578" }} />
             </div> :
@@ -100,7 +99,7 @@ const Home: React.FC = () => {
                                             <div>
                                                 <Toolbar title="Share">
                                                     <IconButton onClick={() => handleShare(list)}>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" color='#703578' fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-7">
                                                             <path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 1 0 0 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186 9.566-5.314m-9.566 7.5 9.566 5.314m0 0a2.25 2.25 0 1 0 3.935 2.186 2.25 2.25 0 0 0-3.935-2.186Zm0-12.814a2.25 2.25 0 1 0 3.933-2.185 2.25 2.25 0 0 0-3.933 2.185Z" />
                                                         </svg>
                                                     </IconButton>

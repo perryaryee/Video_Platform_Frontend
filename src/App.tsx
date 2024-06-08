@@ -8,6 +8,7 @@ import ForgetPassword from './Pages/ForgetPassword';
 import EmailVerifcation from './Pages/EmailVerifcation';
 import NewPassword from './Pages/NewPassword';
 import Admin from "./Pages/Admin";
+import AdminLogin from './Pages/AdminLogin';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route path='/forgot-password' element={<ForgetPassword />} />
         <Route path="/reset-password" element={<NewPassword />} />
         <Route path="/email-verification" element={<EmailVerifcation />} />
+        <Route path="/admin-login" element={<AdminLogin />} />
       </Routes>
     </BrowserRouter>
   );
