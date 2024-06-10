@@ -6,12 +6,13 @@ import { BASEURL } from "../Connections/BASEURLS";
 import { AuthHeader } from "../Components/AuthHeader";
 import { message } from "antd";
 import { useSelector } from "react-redux";
-import { selectUser } from "../Redux/Slices/UserSlice";
+import { selectUserEmail } from "../Redux/Slices/UserSlice";
+
 
 const EmailVerification: React.FC = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
-    const user = useSelector(selectUser);
+    const email = useSelector(selectUserEmail);
 
     const codeInputRefs = [
         useRef<HTMLInputElement>(null),
@@ -39,7 +40,7 @@ const EmailVerification: React.FC = () => {
     const submitCode = () => {
         setLoading(true);
         const payload = {
-            email: "perryaryeesci@gmail.com",
+            email: email,
             verification_code: codeValuesJoined,
         };
         axios
@@ -49,7 +50,7 @@ const EmailVerification: React.FC = () => {
                 setLoading(false);
                 navigate("/home");
                 // if (data) {
-                   
+
                 // }
             })
             .catch((err) => {

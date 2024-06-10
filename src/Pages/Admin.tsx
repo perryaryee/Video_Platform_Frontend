@@ -205,19 +205,19 @@ const Admin: React.FC = () => {
                 </div>
                 <div className=' col-span-8  bg-[#FAF7F6]'>
                     <AdminHeader onClick={() => {
-                         Modal.warning({
+                        Modal.warning({
                             title: "Are you sure you want to make logout?",
                             okText: "Yes",
                             centered: true,
                             closable: true,
                             onOk: () => {
-                                navigate("/");  
+                                navigate("/");
                             },
-                            
+
                         })
-                       
+
                     }} />
-                    
+
                     <div className=' flex items-center justify-between px-5 mt-3'>
                         <div>
                             <h1 className=' text-2xl font-semibold'>All Videos</h1>

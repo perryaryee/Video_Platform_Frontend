@@ -3,7 +3,7 @@ import { AuthHeader } from '../Components/AuthHeader';
 import axios from 'axios';
 import { BASEURL, FILEPATH } from '../Connections/BASEURLS';
 import { useSelector } from 'react-redux';
-import { selectUser } from '../Redux/Slices/UserSlice';
+import { selectUserToken } from '../Redux/Slices/UserSlice';
 import { Button, CircularProgress, IconButton, Toolbar } from '@mui/material';
 
 interface video {
@@ -30,7 +30,7 @@ interface ApiResponse {
 }
 
 const Home: React.FC = () => {
-    const user = useSelector(selectUser);
+    const token = useSelector(selectUserToken);
     const [all_video, setall_video] = useState<video[]>([]);
     const [page, setPage] = useState<number>(1);
     const [limit] = useState<number>(1);
@@ -41,7 +41,7 @@ const Home: React.FC = () => {
         setLoader(true);
         axios.get(`${BASEURL}/video/all_video?page=${page}&limit=${limit}`, {
             headers: {
-                'Authorization': `Bearer ${user?.token}`
+                'Authorization': `Bearer ${token}`
             }
         }).then((response) => {
             const data: ApiResponse = response.data;
@@ -51,7 +51,7 @@ const Home: React.FC = () => {
         }).catch((err) => {
             console.log(err);
         });
-    }, [page, limit, user?.token]);
+    }, [page, limit, token]);
 
 
     const handleShare = (video: video) => {
@@ -72,7 +72,7 @@ const Home: React.FC = () => {
 
     return (
         <div className='bg-[#FAF7F6] h-screen'>
-            <AuthHeader  showLogout />
+            <AuthHeader showLogout />
             {Loader ? <div className=' grid place-items-center pt-16'>
                 <CircularProgress size={18} style={{ color: "#703578" }} />
             </div> :

@@ -28,8 +28,13 @@ export const userSlice = createSlice({
 
 export const { Add_User, ClearUser } = userSlice.actions;
 
-export type RootState = ReturnType<typeof userSlice.reducer>;
+export type RootState = {
+    user: UserState;
+};
 
-export const selectUser = (state: RootState) => state.user;
+export const selectUserEmail = (state: RootState) => state.user?.user?.email;
+
+export const selectUserToken = (state: RootState) => state.user?.user?.token;
+
 
 export default userSlice.reducer;
