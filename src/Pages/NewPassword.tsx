@@ -19,7 +19,7 @@ const NewPassword: React.FC = () => {
     const submitEmail = () => {
         setLoading(true);
         const payload = {
-            NewPassword,
+            password: NewPassword,
             token
         };
         axios
@@ -27,6 +27,7 @@ const NewPassword: React.FC = () => {
             .then((response) => {
                 const data = response.data.message;
                 message.success(data);
+                navigate("/home")
                 setLoading(false);
             })
             .catch((err) => {
@@ -47,7 +48,7 @@ const NewPassword: React.FC = () => {
                             </h1>
                         </div>
                         <div className="">
-                            <TextField value={NewPassword} onChange={(e: any) => {
+                            <TextField type="password" value={NewPassword} onChange={(e: any) => {
                                 setNewPassword(e.target.value);
                             }} fullWidth label="New Password" />
                         </div>

@@ -44,10 +44,9 @@ const Login = () => {
                 }
             }).catch((err) => {
                 setloading(false);
-                //  setloading(true);
                 message.error(err.response.data.message);
 
-            })
+            });
         }
     }
 

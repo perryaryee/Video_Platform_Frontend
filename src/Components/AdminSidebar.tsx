@@ -19,7 +19,7 @@ const AdminSidebar: React.FC = () => {
         <div className=' bg-[#703578] h-screen'>
             <List>
                 <div>
-                    <h1 className=' text-center text-[#F0AE2F] mb-5'>ADMIN PANEL</h1>
+                    <h1 className=' text-center text-[#F0AE2F] mb-5 font-bold'>ADMIN PANEL</h1>
                 </div>
                 <ListItemButton
                     selected={isActive("/admin")}

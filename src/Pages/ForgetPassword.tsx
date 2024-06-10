@@ -15,7 +15,7 @@ const ForgetPassword: React.FC = () => {
 
   const submitEmail = () => {
     if (!email) {
-      message.warning("Field is required!!!!")
+      message.warning("Email Field is required")
     }
     else {
       setLoading(true);
@@ -23,11 +23,12 @@ const ForgetPassword: React.FC = () => {
         email
       };
       axios
-        .post(`${BASEURL}/auth/reset-password`, payload)
+        .post(`${BASEURL}/auth/forgot-password`, payload)
         .then((response) => {
           const data = response.data.message;
           message.success(data);
           setLoading(false);
+          setemail("");
         })
         .catch((err) => {
           setLoading(false);
@@ -67,7 +68,7 @@ const ForgetPassword: React.FC = () => {
                     width: "100%",
                   }}
                 >
-                  authenticating......
+                  please await......
                 </Button>
               ) : (
                 <Button

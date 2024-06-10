@@ -26,8 +26,8 @@ export const AuthHeader: React.FC<Props> = ({ showLogins, showLogout }) => {
                     </div>
                     :
                     showLogout ?
-                        <div  className=' flex items-center space-x-3'>
-                             <Button onClick={() => {
+                        <div className=' flex items-center space-x-3'>
+                            <Button onClick={() => {
                                 navigate("/admin-login")
                             }} style={{ border: "1px solid #703578", paddingLeft: 50, paddingRight: 50, borderRadius: 6, paddingTop: 13, paddingBottom: 13, fontWeight: "bold", fontSize: 13 }}>ADMIN</Button>
                             <Button onClick={() => {
