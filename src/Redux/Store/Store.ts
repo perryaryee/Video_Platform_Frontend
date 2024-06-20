@@ -3,6 +3,7 @@ import storage from "redux-persist/lib/storage";
 import { persistReducer, PersistConfig } from "redux-persist";
 import userReducer from "../Slices/UserSlice";
 import videoReducer from "../Slices/VideoSlice";
+import AdminReducer from "../Slices/AdminSlice";
 
 
 
@@ -14,7 +15,8 @@ const persistConfig: PersistConfig<RootState> = {
 
 const reducers = combineReducers({
     user: userReducer,
-    video: videoReducer
+    video: videoReducer,
+    admin: AdminReducer
 });
 
 const persistedReducer = persistReducer(persistConfig, reducers);

@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { AuthHeader } from '../Components/AuthHeader';
 import axios from 'axios';
 import { BASEURL, FILEPATH } from '../Connections/BASEURLS';
-import { useSelector } from 'react-redux';
-import { selectUserToken } from '../Redux/Slices/UserSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { ClearUser, selectUserToken } from '../Redux/Slices/UserSlice';
 import { Button, CircularProgress, IconButton, Toolbar } from '@mui/material';
+import { message } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 interface video {
     title: string,
@@ -31,11 +33,15 @@ interface ApiResponse {
 
 const Home: React.FC = () => {
     const token = useSelector(selectUserToken);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
     const [all_video, setall_video] = useState<video[]>([]);
     const [page, setPage] = useState<number>(1);
     const [limit] = useState<number>(1);
     const [pagination, setPagination] = useState<Pagination>({});
     const [Loader, setLoader] = useState<boolean>(false);
+
+
 
     useEffect(() => {
         setLoader(true);
@@ -70,11 +76,28 @@ const Home: React.FC = () => {
         }
     };
 
+
+    const Logout = () => {
+
+        axios.post(`${BASEURL}/user/logout`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then((response) => {
+            message.success(response.data.message);
+            dispatch(ClearUser());
+            navigate("/");
+        }).catch((err) => {
+            console.log(err);
+
+        })
+    }
+
     return (
         <div className='bg-[#FAF7F6] h-screen'>
-            <AuthHeader showLogout />
+            <AuthHeader showLogout homeLogout={Logout} />
             {Loader ? <div className=' grid place-items-center pt-16'>
-                <CircularProgress size={18} style={{ color: "#703578" }} />
+                <h1 className=' text-[#703578] text-2xl font-bold'>Loading....</h1>
             </div> :
                 <div>
                     {

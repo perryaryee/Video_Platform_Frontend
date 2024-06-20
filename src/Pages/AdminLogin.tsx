@@ -4,11 +4,14 @@ import axios from 'axios';
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { BASEURL } from '../Connections/BASEURLS';
+import { useDispatch } from 'react-redux';
+import { Add_Admin } from '../Redux/Slices/AdminSlice';
 
 const AdminLogin: React.FC = () => {
     const [username, setusername] = useState<string>("");
     const [password, setpassword] = useState<string>("");
     const [loading, setloading] = useState<boolean>(false);
+    const dispatch = useDispatch();
 
     const navigate = useNavigate();
 
@@ -24,11 +27,15 @@ const AdminLogin: React.FC = () => {
                 password
             }
 
-            axios.post(`${BASEURL}/admin/admin-login`, payload).then((response) => {
+            axios.post("https://video-platform-project-backend.onrender.com/api/admin/admin-login", payload).then((response) => {
                 setloading(false);
                 const data = response.data;
                 if (data) {
                     navigate("/admin");
+                    dispatch(Add_Admin({
+                        username: data.admin.username,
+                        token: data.token
+                    }))
                 }
             }).catch((err) => {
                 setloading(false);

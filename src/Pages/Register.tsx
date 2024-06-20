@@ -8,6 +8,7 @@ import axios from 'axios';
 import { BASEURL } from '../Connections/BASEURLS';
 import { Add_User } from '../Redux/Slices/UserSlice';
 import { useDispatch } from 'react-redux';
+
 // import { Add_User } from '../Redux/Slices/UserSlice';
 
 const Register: React.FC = () => {
@@ -50,10 +51,17 @@ const Register: React.FC = () => {
     <>
       <AuthHeader />
       <div className=' grid grid-cols-10 bg-[#FAF7F6] h-screen'>
-        <div className=' col-span-3  px-10  py-16 '>
-          {/* <img className=' rounded-3xl ml-10' src={Team} style={{ width: "100%", height: 600}} /> */}
+        <div style={{
+            backgroundImage: `linear-gradient(to bottom, rgba(14, 36, 74, 0.8), rgba(14, 36, 74, 0.4)), url(${"https://tse1.mm.bing.net/th?id=OIG2.x0L1p8_NcRtlb_x.iXM_&pid=ImgGn"})`,
+            backgroundSize: "cover",
+        }} className=' col-span-5  px-10  py-16 bg-[#703578]'>
+          <div>
+            <div className=' grid place-items-center pt-14'>
+              <h1 className=' text-4xl text-white'>Asava Video Platform</h1>
+            </div>
+          </div>
         </div>
-        <div className=' col-span-7 px-32'>
+        <div  className=' col-span-5  px-4'>
           <div className='pt-16'>
             <div>
               <h1 className=' text-5xl'>Create your <span className=' text-5xl font-semibold'>personal</span> account</h1>

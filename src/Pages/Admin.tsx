@@ -29,6 +29,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Add_VideoDetails, selectVideoDetails } from '../Redux/Slices/VideoSlice';
 import AdminHeader from '../Components/AdminHeader';
 import { useNavigate } from 'react-router-dom';
+import { selectAdminToken } from '../Redux/Slices/AdminSlice';
 
 
 
@@ -43,7 +44,7 @@ interface Video {
 const Admin: React.FC = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const videoDetails = useSelector(selectVideoDetails);
+    const token = useSelector(selectAdminToken);
     const [showModal, setshowModal] = useState<boolean>(false);
     const [title, settitle] = useState<string>("");
     const [description, setdescription] = useState<string>("");
@@ -55,9 +56,14 @@ const Admin: React.FC = () => {
     const [EditModal, setEditModal] = useState<boolean>(false);
     const [CurrentVideoId, setCurrentVideoId] = useState<string>("");
 
+
     useEffect(() => {
         setloader(true);
-        axios.get(`${BASEURL}/video/all`).then((response) => {
+        axios.get(`${BASEURL}/video/all`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then((response) => {
             const data = response.data.videos;
             setall_video(data);
             setloader(false);
@@ -89,6 +95,7 @@ const Admin: React.FC = () => {
             try {
                 const response = await axios.post(`${BASEURL}/video/upload_video`, formData, {
                     headers: {
+                        'Authorization': `Bearer ${token}`,
                         'Content-Type': 'multipart/form-data',
                     },
                 });
@@ -125,7 +132,11 @@ const Admin: React.FC = () => {
             description
         }
         try {
-            const response = await axios.put(`${BASEURL}/video/${CurrentVideoId}`, payload);
+            const response = await axios.put(`${BASEURL}/video/${CurrentVideoId}`, payload, {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
             seteditloading(false);
             message.success(response.data.message);
             setTriggerRefresh(Math.random());
@@ -138,6 +149,9 @@ const Admin: React.FC = () => {
         }
 
     }
+
+
+
 
 
     return (
@@ -204,19 +218,7 @@ const Admin: React.FC = () => {
                     <AdminSidebar />
                 </div>
                 <div className=' col-span-8  bg-[#FAF7F6]'>
-                    <AdminHeader onClick={() => {
-                        Modal.warning({
-                            title: "Are you sure you want to make logout?",
-                            okText: "Yes",
-                            centered: true,
-                            closable: true,
-                            onOk: () => {
-                                navigate("/");
-                            },
-
-                        })
-
-                    }} />
+                    <AdminHeader />
 
                     <div className=' flex items-center justify-between px-5 mt-3'>
                         <div>
@@ -306,7 +308,11 @@ const Admin: React.FC = () => {
                                                                         centered: true,
                                                                         closable: true,
                                                                         onOk: () => {
-                                                                            axios.delete(`${BASEURL}/video/${video._id}`).then((res) => {
+                                                                            axios.delete(`${BASEURL}/video/${video._id}`, {
+                                                                                headers: {
+                                                                                    'Authorization': `Bearer ${token}`,
+                                                                                },
+                                                                            }).then((res) => {
                                                                                 setTriggerRefresh(Math.random());
 
                                                                             }).catch((err) => {
